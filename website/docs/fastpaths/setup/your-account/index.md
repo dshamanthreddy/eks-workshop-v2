@@ -32,33 +32,33 @@ We are continuously working to optimize the IAM permissions. Please raise a [Git
 
 Scroll to the bottom of the screen and acknowledge the IAM notice:
 
-![acknowledge IAM](/docs/introduction/setup/your-account/acknowledge-iam.webp)
+<img src="/docs/introduction/setup/your-account/acknowledge-iam.webp" alt="acknowledge IAM" width="600" />
 
 Then click the **Create stack** button:
 
-![Create Stack](/docs/introduction/setup/your-account/create-stack.webp)
+<img src="/docs/introduction/setup/your-account/create-stack.webp" alt="Create Stack" width="600" />
 
 The CloudFormation stack will take roughly 5 minutes to deploy, and once completed you can retrieve information required to continue from the **Outputs** tab:
 
-![cloudformation outputs](/docs/introduction/setup/your-account/vscode-outputs.webp)
+<img src="/docs/introduction/setup/your-account/vscode-outputs.webp" alt="cloudformation outputs" width="600" />
 
 The `IdeUrl` output contains the URL to enter in your browser to access the IDE. The `IdePasswordSecret` contains a link to an AWS Secrets Manager secret that contains a generated password for the IDE.
 
 To retrieve the password open the `IdePasswordSecret` URL and click the **Retrieve** button:
 
-![secretsmanager retrieve](/docs/introduction/setup/your-account/vscode-password-retrieve.webp)
+<img src="/docs/introduction/setup/your-account/vscode-password-retrieve.webp" alt="secretsmanager retrieve" width="600" />
 
 The password will then be available for you to copy:
 
-![password in Secrets Manager](/docs/introduction/setup/your-account/vscode-password-visible.webp)
+<img src="/docs/introduction/setup/your-account/vscode-password-visible.webp" alt="password in Secrets Manager" width="600" />
 
 Open the IDE URL provided and you will be prompted for the password:
 
-![IDE password prompt](/docs/introduction/setup/your-account/vscode-password.webp)
+<img src="/docs/introduction/setup/your-account/vscode-password.webp" alt="IDE password prompt" width="600" />
 
 After submitting your password you will be presented with the initial IDE screen:
 
-![IDE initial screen](/docs/introduction/setup/your-account/vscode-splash.webp)
+<img src="/docs/introduction/setup/your-account/vscode-splash.webp" alt="IDE initial screen" width="600" />
 
 The next step is to create an EKS cluster to perform the lab exercises in. Please follow one of the guides below to provision a cluster that meets the requirements for these labs:
 

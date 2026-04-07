@@ -19,9 +19,11 @@ The lab exercises are designed in a way that you can run any modules as a self-c
 
 ## Opening the IDE
 
-If you haven't done so yet, you can open the IDE from the *Event outputs* section at the bottom of the start page.
+If you're **at an AWS event**, open the IDE from the *Event Outputs* section at the bottom of the Workshop Studio start page.
 
- ![Event Outputs copy/paste](/img/fastpaths/ide-open.png)
+<img src="/img/fastpaths/ide-open.png" alt="Event Outputs copy/paste" width="500" />
+
+If you're running **in your own account**, find the `IdeUrl` in your CloudFormation stack's Outputs tab — see the [setup guide](/docs/fastpaths/setup/your-account) for details.
 
 ## Starting a Lab
 

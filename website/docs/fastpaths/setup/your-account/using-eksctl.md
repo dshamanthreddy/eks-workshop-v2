@@ -1,6 +1,7 @@
 ---
 title: Using eksctl
 sidebar_position: 20
+pagination_next: fastpaths/navigating-labs
 ---
 
 This section outlines how to build a cluster for the lab exercises using the [eksctl tool](https://eksctl.io/). This is the easiest way to get started, and is recommended for most learners.
@@ -26,9 +27,17 @@ This process will take approximately 20 minutes to complete.
 
 ## Next Steps
 
-Now that the cluster is ready, head to the [Navigating the labs](/docs/fastpaths/navigating-labs) section or skip ahead to any module in the workshop using the top navigation bar. Once you've completed the workshop, follow the steps below to clean up your environment.
+Now that the cluster is ready, head to the Navigating the labs section to get started.
 
-## Cleaning Up (steps once you are done with the Workshop)
+import Link from '@docusaurus/Link';
+
+<Link className="button button--primary button--lg" to="/docs/fastpaths/navigating-labs">Continue to Navigating the Labs →</Link>
+
+<br/><br/>
+
+---
+
+## Cleaning Up (after you're done with the entire Workshop)
 
 :::tip
 The following demonstrates how to clean up resources once you are done using the EKS cluster. Completing these steps will prevent further charges to your AWS account.
