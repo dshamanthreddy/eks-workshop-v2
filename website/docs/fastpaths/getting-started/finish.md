@@ -28,7 +28,7 @@ As you deploy additional workloads, EKS Auto Mode will automatically provision a
 
 Watch as EKS Auto Mode provisions a node for your workload. You'll see EKS Auto Mode provision a second node in the general-purpose node pool for our applications. It will also consolidate the system node as there is capacity to move the pods around.
 
-```bash timeout=180
+```bash timeout=180 test=false
 $ kubectl get nodes --watch
 ...
 NAME                  STATUS     ROLES    AGE   VERSION
