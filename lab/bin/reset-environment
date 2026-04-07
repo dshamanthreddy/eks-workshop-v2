@@ -102,9 +102,16 @@ if [ ! -z "$module" ]; then
     curl --get -s --data-urlencode "lab=$module" --data-urlencode "account_id=$AWS_ACCOUNT_ID" $ANALYTICS_ENDPOINT || true
   fi
 
+  is_fastpaths=false
+
   if [[ "$module" = "fastpaths/"* ]]; then
     kubectl config use-context eks-workshop-auto
-    exit
+    is_fastpaths=true
+
+    # getting-started teaches deployment from scratch — skip base app
+    if [[ "$module" = "fastpaths/getting-started" ]]; then
+      exit
+    fi
   fi
 fi
 
@@ -227,6 +234,9 @@ fi
 
 terraform -chdir="$tf_dir" output -json | jq -r '.environment.value | select(. != null)' > ~/.bashrc.d/workshop-env.bash
 
+# Node group scaling is only for standard cluster (modular flow)
+if [ "$is_fastpaths" != "true" ]; then
+
 # Node groups
 expected_size_config="$EKS_DEFAULT_MNG_MIN $EKS_DEFAULT_MNG_MAX $EKS_DEFAULT_MNG_DESIRED"
 
@@ -285,6 +295,8 @@ kubectl delete pod -l app.kubernetes.io/created-by=eks-workshop -l app.kubernete
 if kubectl get pods -A -l app.kubernetes.io/created-by=eks-workshop 2>/dev/null | grep -q .; then
   kubectl wait --for=condition=Ready --timeout=240s pods -l app.kubernetes.io/created-by=eks-workshop -A
 fi
+
+fi # end of node group scaling (modular only)
 
 # Finished
 logmessage "\n✅ Environment is ${GREEN}ready${NC}!"

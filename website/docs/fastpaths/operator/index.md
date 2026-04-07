@@ -20,18 +20,6 @@ $ prepare-environment fastpaths/operator
 
 Welcome to the EKS Workshop Operator Essentials! This is a collection of labs optimized for operators to learn the features of Amazon EKS most commonly required when operating EKS clusters.
 
-First, let's deploy the sample application to your cluster:
-
-```bash
-$ kubectl apply -k ~/environment/eks-workshop/base-application
-```
-
-Wait for all components to be ready:
-
-```bash
-$ kubectl wait --for=condition=Ready pods --all -A -l app.kubernetes.io/created-by=eks-workshop --timeout=180s
-```
-
 Throughout this series of exercises you'll learn:
 
 - Configuring cluster autoscaling with Karpenter
