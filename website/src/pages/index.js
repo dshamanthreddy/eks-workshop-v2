@@ -55,6 +55,7 @@ export default function Home() {
       <HomepageModuleLink />
       <main>
         <HomepageFeatures />
+        <HomepageVideo />
       </main>
     </Layout>
   );
