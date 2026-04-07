@@ -7,8 +7,9 @@
   align-items: center;
   gap: clamp(0.3rem, 1vw, 0.75rem);
   font-size: clamp(0.75rem, 1.5vw, 0.9rem);
-  position: relative;
-  z-index: 1;
+  position: sticky;
+  top: var(--ifm-navbar-height);
+  z-index: 99;
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;

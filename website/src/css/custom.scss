@@ -280,8 +280,10 @@
 }
 
 /* Keep the locale dropdown and GitHub link visible on desktop */
-.navbar__items--right .navbar__item {
-  display: flex;
+@media (min-width: 997px) {
+  .navbar__items--right .navbar__item {
+    display: flex;
+  }
 }
 
 /* Show navbar items only in mobile sidebar */
@@ -295,10 +297,6 @@
 
 /* docusaurus switches to mobile view at 996px */
 @media (min-width: 997px) and (max-width: 1250px) {
-  .navbar__brand .navbar__title {
-    display: none; /* Hide the navbar title */
-  }
-
   .navbar__items {
     max-width: 80%;
   }
