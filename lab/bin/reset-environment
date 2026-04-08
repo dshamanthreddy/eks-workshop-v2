@@ -102,16 +102,56 @@ if [ ! -z "$module" ]; then
     curl --get -s --data-urlencode "lab=$module" --data-urlencode "account_id=$AWS_ACCOUNT_ID" $ANALYTICS_ENDPOINT || true
   fi
 
-  is_fastpaths=false
-
   if [[ "$module" = "fastpaths/"* ]]; then
     kubectl config use-context eks-workshop-auto
-    is_fastpaths=true
 
-    # getting-started teaches deployment from scratch — skip base app
+    # getting-started teaches deployment from scratch — skip everything
     if [[ "$module" = "fastpaths/getting-started" ]]; then
       exit
     fi
+
+    # Deploy base application
+    logmessage "\n📦 Deploying base application..."
+    kubectl apply -k $base_path
+    logmessage "\n⏳ Waiting for application to become ready..."
+    sleep 10
+    kubectl wait --for=condition=available --timeout=480s deployments -l app.kubernetes.io/created-by=eks-workshop -A
+    kubectl wait --for=condition=Ready --timeout=480s pods -l app.kubernetes.io/created-by=eks-workshop -A
+
+    # One-time preprovision: install KEDA, fluent-bit, external-secrets etc.
+    if ! kubectl get configmap fastpaths-provisioned -n kube-system &>/dev/null; then
+      logmessage "\n🔧 First time setup: provisioning fastpaths infrastructure (this only runs once)..."
+
+      rm -rf /eks-workshop/terraform
+      mkdir -p /eks-workshop/terraform
+      cp -R $manifests_path/.workshop/terraform/* /eks-workshop/terraform
+      rm -f /eks-workshop/terraform/lab-fastpaths.tf
+
+      mkdir -p /eks-workshop/terraform-data
+      export TF_DATA_DIR="/eks-workshop/terraform-data"
+      export TF_VAR_eks_cluster_id="$EKS_CLUSTER_NAME"
+      export TF_VAR_resources_precreated="false"
+
+      tf_dir=$(realpath --relative-to="$PWD" '/eks-workshop/terraform')
+
+      # Initial terraform destroy (clean state)
+      terraform -chdir="$tf_dir" init -upgrade
+      terraform -chdir="$tf_dir" destroy --auto-approve
+
+      # Copy fastpaths developer preprovision as the lab module
+      mkdir -p /eks-workshop/terraform/lab
+      cp -R $manifests_path/modules/fastpaths/developers/.workshop/terraform/* /eks-workshop/terraform/lab
+      cp $manifests_path/.workshop/terraform/lab-fastpaths.tf /eks-workshop/terraform/lab.tf
+
+      terraform -chdir="$tf_dir" init -upgrade
+      terraform -chdir="$tf_dir" apply -refresh=false --auto-approve
+
+      kubectl create configmap fastpaths-provisioned -n kube-system --from-literal=provisioned=true
+      logmessage "\n✅ Fastpaths infrastructure provisioned!"
+    fi
+
+    logmessage "\n✅ Environment is ${GREEN}ready${NC}!"
+    exit
   fi
 fi
 
