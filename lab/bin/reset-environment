@@ -249,6 +249,7 @@ fi
 rm -rf /eks-workshop/terraform
 mkdir -p /eks-workshop/terraform
 cp -R $manifests_path/.workshop/terraform/* /eks-workshop/terraform
+rm -f /eks-workshop/terraform/lab-fastpaths.tf
 
 # Use a separate directory for .terraform directory
 # Allows us to wipe the TF configuration every time but retain providers installed
@@ -313,9 +314,6 @@ fi
 
 terraform -chdir="$tf_dir" output -json | jq -r '.environment.value | select(. != null)' > ~/.bashrc.d/workshop-env.bash
 
-# Node group scaling is only for standard cluster (modular flow)
-if [ "$is_fastpaths" != "true" ]; then
-
 # Node groups
 expected_size_config="$EKS_DEFAULT_MNG_MIN $EKS_DEFAULT_MNG_MAX $EKS_DEFAULT_MNG_DESIRED"
 
@@ -374,8 +372,6 @@ kubectl delete pod -l app.kubernetes.io/created-by=eks-workshop -l app.kubernete
 if kubectl get pods -A -l app.kubernetes.io/created-by=eks-workshop 2>/dev/null | grep -q .; then
   kubectl wait --for=condition=Ready --timeout=240s pods -l app.kubernetes.io/created-by=eks-workshop -A
 fi
-
-fi # end of node group scaling (modular only)
 
 # Finished
 logmessage "\n✅ Environment is ${GREEN}ready${NC}!"
