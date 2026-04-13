@@ -11,7 +11,7 @@ Streamlined, role-based learning experiences that get you hands-on with Amazon E
 
 ![Fast Path Options](/img/fastpaths/fast-path-options.png)
 
-As you can see in the picture, you can choose your learning journey for this workshop as per the following steps:
+Follow these steps to get started:
 
 1. **[Setup](/docs/fastpaths/setup)** your environment — whether you're at an AWS event or running this in your own account, follow the setup guide to get your IDE and cluster ready.
 2. Learn how to navigate the instructions in the lab using the [Navigating the Labs](/docs/fastpaths/navigating-labs) module.

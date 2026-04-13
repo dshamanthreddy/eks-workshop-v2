@@ -11,7 +11,7 @@ The `eksctl` utility has been pre-installed in your IDE environment, so we can i
 ::yaml{file="manifests/../cluster/eksctl/cluster-auto.yaml" paths="availabilityZones,metadata.name,autoModeConfig.nodePools" title="cluster.yaml"}
 
 1. Create a VPC across three availability zones
-2. Create an EKS cluster, which default is named `eks-workshop-auto`
+2. Create an EKS cluster, named `eks-workshop-auto` by default
 3. Enable EKS Auto Mode built-in node pools
 
 

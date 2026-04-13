@@ -6,9 +6,9 @@ sidebar_custom_props: { "module": true }
 ---
 
 :::tip Before you start
-This lab uses a dedicated Amazon EKS Auto Mode cluster. Amazon EKS Auto Mode extends AWS management of Kubernetes clusters beyond the cluster itself, managing infrastructure that enables smooth operation of your workloads including compute autoscaling, networking, load balancing, DNS, and block storage.
+This fast path uses a dedicated Amazon EKS Auto Mode cluster. Amazon EKS Auto Mode extends AWS management of Kubernetes clusters beyond the cluster itself, managing infrastructure that enables smooth operation of your workloads including compute autoscaling, networking, load balancing, DNS, and block storage.
 
-Switch to the Auto Mode cluster:
+Prepare your environment for this lab:
 
 ```bash
 $ prepare-environment fastpaths/getting-started

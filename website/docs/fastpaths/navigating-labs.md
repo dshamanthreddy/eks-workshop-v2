@@ -34,18 +34,18 @@ Each lab has a "BEFORE YOU START" section with a `prepare-environment` command y
 ## Tips
 
 ### Copy/Paste Permission
-Depending on your browser, you may need to copy/paste content differently in to the Code Server terminal. 
+Depending on your browser, you may need to copy/paste content differently into the Code Server terminal.
 
 <Tabs>
   <TabItem value="Google Chrome" label="Google Chrome (Recommended)" default>
-    First time when you try to paste content in the terminal, you will see a browser pop-up that looks like this:
+    The first time you try to paste content in the terminal, you will see a browser pop-up that looks like this:
 
     <img src="/docs/introduction/vscode-copy-paste.webp" alt="Chrome copy/paste" width="480" />
 
-    Click **Allow** button to enable this functionality. After this, the subsequent copy/paste will be straight forward. For this workshop, we recommend using Google Chrome if possible.
+    Click the **Allow** button to enable this functionality. After this, subsequent copy/paste will be straightforward. For this workshop, we recommend using Google Chrome if possible.
   </TabItem>
   <TabItem value="Firefox/Safari" label="Firefox/Safari">
-    Every time when you try to paste content in the terminal, you will see a small button as shown in the following screenshot adjacent to your mouse pointer. You will need to click on it to actually paste the copied content. 
+    Every time you try to paste content in the terminal, you will see a small button as shown in the following screenshot adjacent to your mouse pointer. You will need to click on it to actually paste the copied content.
 
     <img src="/img/fastpaths/introduction/paste-in-firefox-safari.png" alt="Firefox/Safari copy/paste" width="480" />
 
@@ -57,7 +57,7 @@ Depending on your browser, you may need to copy/paste content differently in to 
 
 ### Terminal commands
 
-Most of the interaction you will do in this workshop will be done with terminal commands, which you can either manually type or copy/paste to the IDE terminal. You will see this terminal commands displayed like this:
+Most of the interaction you will do in this workshop will be done with terminal commands, which you can either manually type or copy/paste to the IDE terminal. You will see terminal commands displayed like this:
 
 ```bash test=false
 $ echo "This is an example command"
@@ -99,4 +99,4 @@ You can learn more about Kustomize at https://kustomize.io/.
 
 ## Next Steps
 
-Now that you're familiar with the format of this workshop, head over to Getting started
+Now that you're familiar with the format of this workshop, head over to [Getting Started](/docs/fastpaths/getting-started).
