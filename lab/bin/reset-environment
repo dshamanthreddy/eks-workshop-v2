@@ -110,15 +110,12 @@ if [ ! -z "$module" ]; then
       exit
     fi
 
-    # Deploy base application
+    # Deploy base application and run one-time preprovision in parallel
     logmessage "\n📦 Deploying base application..."
     kubectl apply -k $base_path
-    logmessage "\n⏳ Waiting for application to become ready..."
-    sleep 10
-    kubectl wait --for=condition=available --timeout=480s deployments -l app.kubernetes.io/created-by=eks-workshop -A
-    kubectl wait --for=condition=Ready --timeout=480s pods -l app.kubernetes.io/created-by=eks-workshop -A
 
     # One-time preprovision: install KEDA, fluent-bit, external-secrets etc.
+    TF_PID=""
     if ! kubectl get configmap fastpaths-provisioned -n kube-system &>/dev/null; then
       logmessage "\n🔧 First time setup: provisioning fastpaths infrastructure (this only runs once)..."
 
@@ -134,18 +131,31 @@ if [ ! -z "$module" ]; then
 
       tf_dir=$(realpath --relative-to="$PWD" '/eks-workshop/terraform')
 
-      # Initial terraform destroy (clean state)
       terraform -chdir="$tf_dir" init -upgrade
       terraform -chdir="$tf_dir" destroy --auto-approve
 
-      # Copy fastpaths developer preprovision as the lab module
       mkdir -p /eks-workshop/terraform/lab
       cp -R $manifests_path/modules/fastpaths/developers/.workshop/terraform/* /eks-workshop/terraform/lab
       cp $manifests_path/.workshop/terraform/lab-fastpaths.tf /eks-workshop/terraform/lab.tf
 
       terraform -chdir="$tf_dir" init -upgrade
-      terraform -chdir="$tf_dir" apply -refresh=false --auto-approve
+      terraform -chdir="$tf_dir" apply -refresh=false --auto-approve &
+      TF_PID=$!
+    fi
 
+    logmessage "\n⏳ Waiting for application to become ready..."
+    sleep 10
+    kubectl wait --for=condition=available --timeout=480s deployments -l app.kubernetes.io/created-by=eks-workshop -A
+    kubectl wait --for=condition=Ready --timeout=480s pods -l app.kubernetes.io/created-by=eks-workshop -A
+
+    if [ -n "$TF_PID" ]; then
+      logmessage "\n⏳ Waiting for infrastructure provisioning to complete..."
+      wait $TF_PID
+      TF_EXIT=$?
+      if [ $TF_EXIT -ne 0 ]; then
+        logmessage "\n${RED}Error:${NC} Infrastructure provisioning failed"
+        exit $TF_EXIT
+      fi
       kubectl create configmap fastpaths-provisioned -n kube-system --from-literal=provisioned=true
       logmessage "\n✅ Fastpaths infrastructure provisioned!"
     fi
