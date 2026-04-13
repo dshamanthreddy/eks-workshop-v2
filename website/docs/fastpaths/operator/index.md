@@ -13,7 +13,7 @@ This fast path uses a dedicated Amazon EKS Auto Mode cluster. Amazon EKS Auto Mo
 
 Switch to the Auto Mode cluster:
 
-```bash
+```bash timeout=600
 $ prepare-environment fastpaths/operator
 ```
 :::

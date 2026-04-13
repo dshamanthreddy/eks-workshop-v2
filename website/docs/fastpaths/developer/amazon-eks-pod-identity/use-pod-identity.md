@@ -96,8 +96,8 @@ deployment.apps/carts restarted
 ```
 Let's check the status of the Pods to check if they are successfully rolled out:
 
-```bash
-$ kubectl -n carts rollout status deployment/carts
+```bash timeout=360
+$ kubectl -n carts rollout status deployment/carts --timeout=300s
 Waiting for deployment "carts" rollout to finish: 1 old replicas are pending termination...
 deployment "carts" successfully rolled out
 ```

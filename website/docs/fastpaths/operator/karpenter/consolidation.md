@@ -41,7 +41,7 @@ Let's explore how to trigger automatic consolidation when `disruption` is set to
 
 Scale our `inflate` workload again to consume more resources:
 
-```bash
+```bash timeout=240
 $ kubectl scale -n other deployment/inflate --replicas 12
 $ kubectl rollout status -n other deployment/inflate --timeout=180s
 ```

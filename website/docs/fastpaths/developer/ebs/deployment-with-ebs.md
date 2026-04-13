@@ -145,8 +145,8 @@ The volume uses gp3 storage with encryption enabled.
 
 Let's verify that data persists across pod restarts. First, wait for the pod to be ready:
 
-```bash timeout=240
-$ kubectl wait --for=condition=Ready -n catalog pod/catalog-mysql-0 --timeout=180s
+```bash timeout=420
+$ kubectl wait --for=condition=Ready -n catalog pod/catalog-mysql-0 --timeout=360s
 ```
 
 Create a test file in the MySQL data directory:

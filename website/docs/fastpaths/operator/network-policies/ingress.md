@@ -109,7 +109,7 @@ command terminated with exit code 28
 
 It's important to note, that the Network Policy doesn't rely on IP address. You can play with restarting the 'catalog' pod and confirms that you can still connect:
 
-```bash
+```bash timeout=180
 $ kubectl rollout restart deployment/catalog -n catalog
 $ kubectl rollout status deployment/catalog -n catalog --timeout=2m
 ```

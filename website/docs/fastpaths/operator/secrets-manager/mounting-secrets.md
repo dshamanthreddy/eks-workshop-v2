@@ -42,7 +42,7 @@ Deployment/catalog
 
 We'll mount the AWS Secrets Manager secret using the CSI driver with the SecretProviderClass we validated earlier at the `/etc/catalog-secret` mountPath inside the Pod. This will trigger AWS Secrets Manager to synchronize the stored secret contents with Amazon EKS and create a Kubernetes Secret that can be consumed as environment variables in the Pod.
 
-```bash
+```bash timeout=180
 $ kubectl kustomize ~/environment/eks-workshop/modules/security/secrets-manager/mounting-secrets/ \
   | envsubst | kubectl apply -f-
 $ kubectl rollout status -n catalog deployment/catalog --timeout=120s

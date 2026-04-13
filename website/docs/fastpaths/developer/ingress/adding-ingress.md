@@ -36,7 +36,7 @@ With EKS Auto Mode, ALB configuration via annotations is not supported. Configur
 
 Let's apply those configurations:
 
-```bash timeout=180 hook=add-ingress hookTimeout=430
+```bash timeout=180 hook=add-ingress hookTimeout=660
 $ kubectl apply -k ~/environment/eks-workshop/modules/fastpaths/developers/ingress/adding-ingress/
 ```
 

@@ -11,7 +11,7 @@ sidebar_custom_props: { "module": true }
 :::tip Before you start
 Apply required lab configurations:
 
-```bash
+```bash timeout=600
 $ prepare-environment fastpaths/developer
 ```
 :::

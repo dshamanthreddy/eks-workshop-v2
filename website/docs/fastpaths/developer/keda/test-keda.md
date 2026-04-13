@@ -11,7 +11,7 @@ The command below will run the load generator with:
 - Sending 5 queries per second each
 - Running for a maximum of 10 minutes
 
-```bash hook=keda-pod-scaleout hookTimeout=330
+```bash hook=keda-pod-scaleout hookTimeout=660
 $ export ALB_HOSTNAME=$(kubectl get ingress ui-auto -n ui -o yaml | yq .status.loadBalancer.ingress[0].hostname)
 $ kubectl run load-generator \
   --image=williamyeh/hey:latest \

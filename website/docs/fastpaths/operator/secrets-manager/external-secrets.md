@@ -45,7 +45,7 @@ Deployment/catalog
 ExternalSecret/catalog-external-secret
 ```
 
-```bash
+```bash timeout=180
 $ kubectl kustomize ~/environment/eks-workshop/modules/security/secrets-manager/external-secrets/ \
   | envsubst | kubectl apply -f-
 $ kubectl rollout status -n catalog deployment/catalog --timeout=120s

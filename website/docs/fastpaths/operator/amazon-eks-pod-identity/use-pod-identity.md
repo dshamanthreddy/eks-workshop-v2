@@ -90,10 +90,10 @@ $ kubectl -n carts describe deployment carts | grep 'Service Account'
 
 With the Service Account verified, let's recycle the `carts` Pods:
 
-```bash hook=enable-pod-identity hookTimeout=430
+```bash hook=enable-pod-identity hookTimeout=430 timeout=360
 $ kubectl -n carts rollout restart deployment/carts
 deployment.apps/carts restarted
-$ kubectl -n carts rollout status deployment/carts
+$ kubectl -n carts rollout status deployment/carts --timeout=300s
 Waiting for deployment "carts" rollout to finish: 1 old replicas are pending termination...
 deployment "carts" successfully rolled out
 ```
