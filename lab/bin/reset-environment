@@ -110,6 +110,21 @@ if [ ! -z "$module" ]; then
       exit
     fi
 
+    # Run cleanup from previous fastpaths module if it exists
+    if [ -f "/eks-workshop/hooks/cleanup.sh" ]; then
+      logmessage "\n🧹 Cleaning up previous lab..."
+      bash /eks-workshop/hooks/cleanup.sh || true
+      rm -f /eks-workshop/hooks/cleanup.sh
+    fi
+
+    # Delete StatefulSets before reapplying base app to avoid spec conflicts
+    kubectl delete statefulset -l app.kubernetes.io/created-by=eks-workshop -A --ignore-not-found 2>/dev/null || true
+    # Wait for StatefulSets to be fully deleted
+    sleep 5
+    while kubectl get statefulset -l app.kubernetes.io/created-by=eks-workshop -A --no-headers 2>/dev/null | grep -q .; do
+      sleep 2
+    done
+
     # Deploy base application and run one-time preprovision in parallel
     logmessage "\n📦 Deploying base application..."
     kubectl apply -k $base_path
@@ -158,6 +173,20 @@ if [ ! -z "$module" ]; then
       fi
       kubectl create configmap fastpaths-provisioned -n kube-system --from-literal=provisioned=true
       logmessage "\n✅ Fastpaths infrastructure provisioned!"
+    fi
+
+    # Save cleanup hook for this module's path (developer or operator)
+    rm -rf /eks-workshop/hooks
+    # Map content path to manifests path (developer->developers, operator->operators)
+    fastpaths_top=$(echo "$module" | cut -d'/' -f1-2)
+    module_path="$manifests_path/modules/$fastpaths_top"
+    # Try plural form if singular doesn't exist
+    if [ ! -d "$module_path/.workshop" ]; then
+      module_path="${module_path}s"
+    fi
+    if [ -f "$module_path/.workshop/cleanup.sh" ]; then
+      mkdir -p /eks-workshop/hooks
+      cp "$module_path/.workshop/cleanup.sh" /eks-workshop/hooks
     fi
 
     logmessage "\n✅ Environment is ${GREEN}ready${NC}!"
