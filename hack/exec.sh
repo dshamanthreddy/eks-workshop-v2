@@ -29,7 +29,7 @@ elif [ -n "${USE_CURRENT_USER:-}" ]; then
     exit 1
   fi
   echo "Using USE_CURRENT_USER"
-  aws_credential_args="-e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -e AWS_SESSION_TOKEN=$AWS_SESSION_TOKEN"
+  aws_credential_args="-e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -e AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN:-}"
 else
   echo "Using DEFAULT no credentials passed"
   aws_credential_args=""
