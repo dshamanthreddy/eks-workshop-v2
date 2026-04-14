@@ -34,7 +34,7 @@ resource "aws_iam_role_policy_attachment" "keda_auto" {
 resource "aws_eks_pod_identity_association" "keda_auto" {
   cluster_name    = var.eks_cluster_auto_id
   namespace       = "keda"
-  service_account = "keda"
+  service_account = "keda-operator"
   role_arn        = aws_iam_role.keda_auto.arn
 }
 
