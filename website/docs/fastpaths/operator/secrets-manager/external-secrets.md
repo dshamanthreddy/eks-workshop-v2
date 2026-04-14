@@ -32,7 +32,8 @@ With EKS Pod Identites there is no need for the auth section here as the Service
 
 Let's use this file to create the ClusterSecretStore resource.
 
-```bash wait=120
+```bash timeout=300
+$ kubectl wait --for=condition=available deployment/external-secrets-webhook -n external-secrets --timeout=240s
 $ cat ~/environment/eks-workshop/modules/fastpaths/operators/external-secrets/cluster-secret-store.yaml \
   | envsubst | kubectl apply -f -
 ```
