@@ -32,7 +32,7 @@ With EKS Pod Identites there is no need for the auth section here as the Service
 
 Let's use this file to create the ClusterSecretStore resource.
 
-```bash wait=60
+```bash wait=120
 $ cat ~/environment/eks-workshop/modules/fastpaths/operators/external-secrets/cluster-secret-store.yaml \
   | envsubst | kubectl apply -f -
 ```

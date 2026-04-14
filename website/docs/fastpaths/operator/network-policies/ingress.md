@@ -11,7 +11,7 @@ We can start implementing the above network rules using an ingress network polic
 
 Before applying the policy, the 'catalog' service can be accessed by both the 'ui' component:
 
-```bash
+```bash timeout=180
 $ kubectl exec deployment/ui -n ui -- curl -v catalog.catalog/health --connect-timeout 5
    Trying XXX.XXX.XXX.XXX:80...
 * Connected to catalog.catalog (XXX.XXX.XXX.XXX) port 80 (#0)
