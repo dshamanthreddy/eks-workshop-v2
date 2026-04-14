@@ -1,11 +1,11 @@
-set -e
+set -Eeuo pipefail
 
 before() {
   echo "noop"
 }
 
 after() {
-  prepare-environment
+  echo "Pod logging lab complete"
 }
 
 "$@"

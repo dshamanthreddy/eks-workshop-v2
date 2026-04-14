@@ -139,7 +139,7 @@ http://k8s-ui-uiauto-cb8129ddff-1888909706.us-west-2.elb.amazonaws.com
 
 To wait until the load balancer has finished provisioning you can run this command:
 
-```bash
+```bash timeout=600
 $ curl --head -X GET --retry 30 --retry-all-errors --retry-delay 15 --connect-timeout 30 --max-time 60 \
   -k $(kubectl get ingress -n ui ui-auto -o jsonpath="{.status.loadBalancer.ingress[*].hostname}")
 ```

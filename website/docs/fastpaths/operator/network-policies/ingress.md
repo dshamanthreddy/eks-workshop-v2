@@ -48,7 +48,7 @@ Now, we'll define a network policy that will allow traffic to the 'catalog' serv
 
 Let's apply the policy:
 
-```bash wait=30
+```bash wait=45
 $ kubectl apply -f ~/environment/eks-workshop/modules/networking/network-policies/apply-network-policies/allow-catalog-ingress-webservice.yaml
 ```
 
@@ -90,7 +90,7 @@ But this still leaves the 'catalog' database component open, so let us implement
 
 Lets apply the policy:
 
-```bash wait=30
+```bash wait=45
 $ kubectl apply -f ~/environment/eks-workshop/modules/networking/network-policies/apply-network-policies/allow-catalog-ingress-db.yaml
 ```
 

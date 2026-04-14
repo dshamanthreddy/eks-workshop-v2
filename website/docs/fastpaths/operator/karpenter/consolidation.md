@@ -102,7 +102,7 @@ i-0e1f072dc32194cc7   Ready    <none>   6m4s   v1.33.4-eks-e386d34   c6a.large  
 
 Karpenter can also further consolidate if a node can be replaced with a cheaper variant in response to workload changes. This can be demonstrated by scaling the `inflate` deployment replicas down to 1, with a total memory request of around 1Gi:
 
-```bash
+```bash wait=60
 $ kubectl scale -n other deployment/inflate --replicas 1
 ```
 

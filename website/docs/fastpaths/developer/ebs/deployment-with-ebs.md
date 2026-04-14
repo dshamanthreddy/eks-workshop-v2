@@ -26,7 +26,7 @@ Since many StatefulSet fields, including `volumeClaimTemplates`, cannot be modif
 
 First, delete the current catalog MySQL StatefulSet:
 
-```bash
+```bash wait=10
 $ kubectl delete -n catalog statefulset catalog-mysql
 ```
 
@@ -40,7 +40,7 @@ Now recreate it with persistent storage enabled. The updated StatefulSet include
 
 Apply the configuration, and restart the catalog pod to ensure initialization of the database:
 
-```bash
+```bash timeout=180
 $ kubectl apply -k ~/environment/eks-workshop/modules/fastpaths/developers/ebs
 $ kubectl rollout restart deployment/catalog -n catalog # Force catalog to push the DB structure
 ```

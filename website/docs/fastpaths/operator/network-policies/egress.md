@@ -14,7 +14,7 @@ As shown in the above architecture diagram, the 'ui' component is the front-faci
 
 > **Note** : There is no namespace specified in the network policy, as it is a generic policy that can potentially be applied to any namespace in our cluster.
 
-```bash wait=30
+```bash wait=45
 $ kubectl apply -n ui -f ~/environment/eks-workshop/modules/networking/network-policies/apply-network-policies/default-deny.yaml
 ```
 
@@ -53,7 +53,7 @@ The network policy below was designed with the above requirements in mind.
 
 Let's apply this additional policy:
 
-```bash wait=30
+```bash wait=45
 $ kubectl apply -f ~/environment/eks-workshop/modules/fastpaths/operators/network-policies/allow-ui-egress.yaml
 ```
 

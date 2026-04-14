@@ -5,7 +5,7 @@ sidebar_position: 424
 
 Now let's explore integrating with AWS Secrets Manager using the External Secrets operator. This has already been installed in our EKS cluster:
 
-```bash
+```bash wait=30
 $ kubectl -n external-secrets get pods
 NAME                                                READY   STATUS    RESTARTS   AGE
 external-secrets-6d95d66dc8-5trlv                   1/1     Running   0          7m
@@ -32,7 +32,7 @@ With EKS Pod Identites there is no need for the auth section here as the Service
 
 Let's use this file to create the ClusterSecretStore resource.
 
-```bash
+```bash wait=60
 $ cat ~/environment/eks-workshop/modules/fastpaths/operators/external-secrets/cluster-secret-store.yaml \
   | envsubst | kubectl apply -f -
 ```

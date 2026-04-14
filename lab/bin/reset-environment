@@ -139,6 +139,12 @@ if [ ! -z "$module" ]; then
       cp -R $manifests_path/.workshop/terraform/* /eks-workshop/terraform
       rm -f /eks-workshop/terraform/lab-fastpaths.tf
 
+      # Copy lab files BEFORE destroy so it can clean up partial state
+      # from a previously interrupted apply
+      mkdir -p /eks-workshop/terraform/lab
+      cp -R $manifests_path/modules/fastpaths/developers/.workshop/terraform/* /eks-workshop/terraform/lab
+      cp $manifests_path/.workshop/terraform/lab-fastpaths.tf /eks-workshop/terraform/lab.tf
+
       mkdir -p /eks-workshop/terraform-data
       export TF_DATA_DIR="/eks-workshop/terraform-data"
       export TF_VAR_eks_cluster_id="$EKS_CLUSTER_NAME"
@@ -149,12 +155,7 @@ if [ ! -z "$module" ]; then
       terraform -chdir="$tf_dir" init -upgrade
       terraform -chdir="$tf_dir" destroy --auto-approve
 
-      mkdir -p /eks-workshop/terraform/lab
-      cp -R $manifests_path/modules/fastpaths/developers/.workshop/terraform/* /eks-workshop/terraform/lab
-      cp $manifests_path/.workshop/terraform/lab-fastpaths.tf /eks-workshop/terraform/lab.tf
-
-      terraform -chdir="$tf_dir" init -upgrade
-      terraform -chdir="$tf_dir" apply -refresh=false --auto-approve &
+      terraform -chdir="$tf_dir" apply --auto-approve &
       TF_PID=$!
     fi
 
@@ -162,6 +163,13 @@ if [ ! -z "$module" ]; then
     sleep 10
     kubectl wait --for=condition=available --timeout=480s deployments -l app.kubernetes.io/created-by=eks-workshop -A
     kubectl wait --for=condition=Ready --timeout=480s pods -l app.kubernetes.io/created-by=eks-workshop -A
+
+    # Restart service pods to ensure DB migrations run against initialized databases
+    # (catalog and orders may have started before their MySQL/PostgreSQL were ready)
+    kubectl rollout restart deployment/catalog -n catalog
+    kubectl rollout restart deployment/orders -n orders
+    kubectl rollout status deployment/catalog -n catalog --timeout=120s
+    kubectl rollout status deployment/orders -n orders --timeout=120s
 
     if [ -n "$TF_PID" ]; then
       logmessage "\n⏳ Waiting for infrastructure provisioning to complete..."

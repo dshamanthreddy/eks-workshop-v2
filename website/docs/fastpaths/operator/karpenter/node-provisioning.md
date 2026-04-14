@@ -64,7 +64,7 @@ $ kubectl rollout status -n other deployment/inflate --timeout=180s
 
 Let's now check the action taken by Karpenter listing those events. Wait for 5-10 seconds to see the events getting listed.
 
-```bash
+```bash wait=10
 $ kubectl events | grep -i 'NodeClaim'
 ```
 
