@@ -5,7 +5,7 @@ if [ -z "$environment" ]; then
   export EKS_CLUSTER_AUTO_NAME="eks-workshop-auto"
 else
   export EKS_CLUSTER_NAME="eks-workshop-${environment}"
-  export EKS_CLUSTER_AUTO_NAME="eks-workshop-auto-${environment}"
+  export EKS_CLUSTER_AUTO_NAME="eks-workshop-${environment}-auto"
 fi
 
 AWS_REGION=${AWS_REGION:-""}
