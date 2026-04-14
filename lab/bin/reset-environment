@@ -42,6 +42,7 @@ fi
 
 rm -f /home/ec2-user/.kube/config
 EKS_CLUSTER_AUTO_NAME=${EKS_CLUSTER_AUTO_NAME:-"eks-workshop-auto"}
+export EKS_CLUSTER_AUTO_NAME
 
 aws eks update-kubeconfig --name $EKS_CLUSTER_AUTO_NAME --alias eks-workshop-auto 2>/dev/null || true
 aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --alias default --user-alias default 2>/dev/null || true
