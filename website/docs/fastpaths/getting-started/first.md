@@ -101,7 +101,7 @@ catalog-mysql-0           1/1     Running   0             2m5s
 
 If the pods aren't ready yet, we can use [kubectl wait](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#wait) for them to become ready.
 
-```bash
+```bash timeout=200
 $ kubectl wait --for=condition=Ready pods --all -n catalog --timeout=180s
 ```
 
@@ -138,7 +138,7 @@ catalog-mysql   ClusterIP   172.20.181.252   <none>        3306/TCP   2m48s
 
 These Services are internal to the cluster, so we cannot access them from the Internet or even the VPC. However, we can use [exec](https://kubernetes.io/docs/tasks/debug/debug-application/get-shell-running-container/) to access an existing Pod in the EKS cluster to check the catalog API is working:
 
-```bash
+```bash timeout=180
 $ kubectl -n catalog exec -i \
   deployment/catalog -- curl catalog.catalog.svc/catalog/products | jq .
 ```
