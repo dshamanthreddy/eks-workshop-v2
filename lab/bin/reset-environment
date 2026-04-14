@@ -117,13 +117,15 @@ if [ ! -z "$module" ]; then
       rm -f /eks-workshop/hooks/cleanup.sh
     fi
 
-    # Delete StatefulSets before reapplying base app to avoid spec conflicts
-    kubectl delete statefulset -l app.kubernetes.io/created-by=eks-workshop -A --ignore-not-found 2>/dev/null || true
-    # Wait for StatefulSets to be fully deleted
-    sleep 5
-    while kubectl get statefulset -l app.kubernetes.io/created-by=eks-workshop -A --no-headers 2>/dev/null | grep -q .; do
-      sleep 2
-    done
+    # Only delete StatefulSets if EBS lab modified them (StorageClass ebs-sc exists)
+    # Otherwise the base app apply is idempotent and StatefulSets don't need recreation
+    if kubectl get storageclass ebs-sc &>/dev/null 2>&1; then
+      kubectl delete statefulset -l app.kubernetes.io/created-by=eks-workshop -A --ignore-not-found 2>/dev/null || true
+      sleep 5
+      while kubectl get statefulset -l app.kubernetes.io/created-by=eks-workshop -A --no-headers 2>/dev/null | grep -q .; do
+        sleep 2
+      done
+    fi
 
     # Deploy base application and run one-time preprovision in parallel
     logmessage "\n📦 Deploying base application..."
@@ -165,10 +167,11 @@ if [ ! -z "$module" ]; then
     kubectl wait --for=condition=available --timeout=480s deployments -l app.kubernetes.io/created-by=eks-workshop -A
     kubectl wait --for=condition=Ready --timeout=480s pods -l app.kubernetes.io/created-by=eks-workshop -A
 
-    # Restart service pods to ensure DB migrations run against initialized databases
-    # (catalog and orders may have started before their MySQL/PostgreSQL were ready)
+    # Restart deployments to pick up any configmap changes from the base app restore
+    kubectl rollout restart deployment/carts -n carts
     kubectl rollout restart deployment/catalog -n catalog
     kubectl rollout restart deployment/orders -n orders
+    kubectl rollout status deployment/carts -n carts --timeout=120s
     kubectl rollout status deployment/catalog -n catalog --timeout=120s
     kubectl rollout status deployment/orders -n orders --timeout=120s
 
