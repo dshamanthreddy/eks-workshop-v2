@@ -8,10 +8,10 @@ In this lab exercise, we'll see how to check the Kubernetes pod logs forwarded b
 
 First, lets recycle the pods for the `ui` component to make sure fresh logs are written since we enabled Fluent Bit.
 
-```bash
+```bash timeout=180
 $ kubectl delete pod -n ui --all
 $ kubectl rollout status deployment/ui \
-  -n ui --timeout 30s
+  -n ui --timeout 120s
 deployment "ui" successfully rolled out
 ```
 
