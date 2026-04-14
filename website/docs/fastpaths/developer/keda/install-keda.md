@@ -38,6 +38,8 @@ NOTES:
 After the Helm install, KEDA will be running as several deployments in the keda namespace:
 
 ```bash
+$ kubectl rollout restart deployment/keda-operator -n keda
+$ kubectl rollout status deployment/keda-operator -n keda --timeout=120s
 $ kubectl get deployment -n keda
 NAME                              READY   UP-TO-DATE   AVAILABLE   AGE
 keda-admission-webhooks           1/1     1            1           105s

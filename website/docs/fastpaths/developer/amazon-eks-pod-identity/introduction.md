@@ -17,6 +17,7 @@ carts-dynamodb-698674dcc6-hw2bg   1/1     Running   0               14m
 In the output above, the Pod `carts-dynamodb-698674dcc6-hw2bg` is our lightweight DynamoDB service. We can verify our `carts` application is using this by inspecting its environment:
 
 ```bash timeout=180
+$ kubectl wait --for=condition=Ready pods -l app.kubernetes.io/component=service -n carts --timeout=120s
 $ kubectl -n carts exec deployment/carts -- env | grep RETAIL_CART_PERSISTENCE_DYNAMODB_ENDPOINT
 RETAIL_CART_PERSISTENCE_DYNAMODB_ENDPOINT=http://carts-dynamodb:8000
 ```
