@@ -58,7 +58,7 @@ jobs:
           role-duration-seconds: 3600
           aws-region: ${{ secrets.AWS_REGION }}
           role-session-name: GithubActionsSession-${{ env.CLUSTER_ID }}
-      - name: Run tests - Getting Started
+      - name: Run tests - Fastpaths
         env:
           DOCKER_BUILDKIT: 1
           DEV_MODE: 1
@@ -66,41 +66,7 @@ jobs:
           DOCKER_DNS_OVERRIDE: "8.8.8.8"
         run: |
           export AWS_DEFAULT_REGION="$AWS_REGION"
-          bash hack/run-tests.sh "$CLUSTER_ID" "fastpaths/getting-started" "-"
-      - name: Refresh AWS credentials
-        if: always()
-        uses: aws-actions/configure-aws-credentials@v4.3.1
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          role-duration-seconds: 3600
-          aws-region: ${{ secrets.AWS_REGION }}
-          role-session-name: GithubActionsSession-${{ env.CLUSTER_ID }}
-      - name: Run tests - Operator Essentials
-        env:
-          DOCKER_BUILDKIT: 1
-          DEV_MODE: 1
-          AWS_REGION: "${{ secrets.AWS_REGION }}"
-          DOCKER_DNS_OVERRIDE: "8.8.8.8"
-        run: |
-          export AWS_DEFAULT_REGION="$AWS_REGION"
-          bash hack/run-tests.sh "$CLUSTER_ID" "fastpaths/operator" "-"
-      - name: Refresh AWS credentials
-        if: always()
-        uses: aws-actions/configure-aws-credentials@v4.3.1
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          role-duration-seconds: 3600
-          aws-region: ${{ secrets.AWS_REGION }}
-          role-session-name: GithubActionsSession-${{ env.CLUSTER_ID }}
-      - name: Run tests - Developer Essentials
-        env:
-          DOCKER_BUILDKIT: 1
-          DEV_MODE: 1
-          AWS_REGION: "${{ secrets.AWS_REGION }}"
-          DOCKER_DNS_OVERRIDE: "8.8.8.8"
-        run: |
-          export AWS_DEFAULT_REGION="$AWS_REGION"
-          bash hack/run-tests.sh "$CLUSTER_ID" "fastpaths/developer" "-"
+          bash hack/run-tests.sh "$CLUSTER_ID" "-" "{fastpaths/getting-started,fastpaths/getting-started/**,fastpaths/operator,fastpaths/operator/**,fastpaths/developer,fastpaths/developer/**}"
       - name: Refresh AWS credentials
         if: always()
         uses: aws-actions/configure-aws-credentials@v4.3.1
