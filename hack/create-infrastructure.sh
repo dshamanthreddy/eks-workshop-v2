@@ -2,6 +2,7 @@
 
 environment=$1
 cluster=${2:-all}
+export USE_CURRENT_USER=${USE_CURRENT_USER:-1} # We don't want to change the ARN in exec
 echo "Creating infrastructure for environment ${environment} and cluster ${cluster}"
 
 set -Eeuo pipefail
@@ -14,7 +15,6 @@ source $SCRIPT_DIR/lib/common-env.sh
 bash $SCRIPT_DIR/update-iam-role.sh $environment
 
 sleep 5
-export USE_CURRENT_USER=1 # We don't want to change the ARN in exec
 
 cluster_exists=0
 aws eks describe-cluster --name "${EKS_CLUSTER_NAME}" &> /dev/null || cluster_exists=$?
