@@ -40,7 +40,7 @@ keda-hpa-ui-hpa   Deployment/ui   91500m/100 (avg)    1         10        10    
 Once you're satisfied with the autoscaling behavior, you can end the watch with `Ctrl+C` and stop the load generator like so:
 
 ```bash
-$ kubectl delete pod load-generator
+$ kubectl delete pod load-generator --ignore-not-found
 ```
 
 As the load generator terminates, notice that the HPA will slowly bring the replica count to min number based on its configuration.
