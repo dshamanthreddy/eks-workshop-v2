@@ -20,10 +20,10 @@ container_image='eks-workshop-environment'
 (cd $SCRIPT_DIR/../lab && $CONTAINER_CLI build -q -t $container_image .)
 
 
-if [ -z "$SKIP_CREDENTIALS" -a -z "$USE_CURRENT_USER" ]; then
+if [ "${SKIP_CREDENTIALS:-0}" = "0" ] && [ "${USE_CURRENT_USER:-0}" = "0" ]; then
   echo "Passing temp AWS credentials"
   source $SCRIPT_DIR/lib/generate-aws-creds.sh
-elif [ -n "${USE_CURRENT_USER:-}" ]; then
+elif [ "${USE_CURRENT_USER:-0}" != "0" ]; then
   if [ -z "$AWS_ACCESS_KEY_ID" ]; then
     echo "No AWS_ACCESS_KEY_ID found, please check your AWS credentials"
     exit 1

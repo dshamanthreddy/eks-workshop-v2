@@ -16,12 +16,15 @@ bash $SCRIPT_DIR/update-iam-role.sh $environment
 
 sleep 5
 
+pids=()
+
 cluster_exists=0
 aws eks describe-cluster --name "${EKS_CLUSTER_NAME}" &> /dev/null || cluster_exists=$?
 
 if [ $cluster_exists -ne 0 ] && [[ "$cluster" == "standard" || "$cluster" == "all" ]]; then
   echo "Creating cluster ${EKS_CLUSTER_NAME}"
-  bash $SCRIPT_DIR/exec.sh "${environment}" 'cat /cluster/eksctl/cluster.yaml /cluster/eksctl/access-entries.yaml | envsubst | eksctl create cluster -f -'&
+  bash $SCRIPT_DIR/exec.sh "${environment}" 'cat /cluster/eksctl/cluster.yaml /cluster/eksctl/access-entries.yaml | envsubst | eksctl create cluster -f -' &
+  pids+=($!)
 else
   echo "Cluster ${EKS_CLUSTER_NAME} already exists"
 fi
@@ -31,9 +34,12 @@ aws eks describe-cluster --name "${EKS_CLUSTER_AUTO_NAME}" &> /dev/null || auto_
 
 if [ $auto_cluster_exists -ne 0 ] && [[ "$cluster" == "auto" || "$cluster" == "all" ]]; then
   echo "Creating auto mode cluster ${EKS_CLUSTER_AUTO_NAME}"
-  bash $SCRIPT_DIR/exec.sh "${environment}" 'cat /cluster/eksctl/cluster-auto.yaml /cluster/eksctl/access-entries.yaml | envsubst | eksctl create cluster -f -'&
+  bash $SCRIPT_DIR/exec.sh "${environment}" 'cat /cluster/eksctl/cluster-auto.yaml /cluster/eksctl/access-entries.yaml | envsubst | eksctl create cluster -f -' &
+  pids+=($!)
 else
   echo "Auto mode cluster ${EKS_CLUSTER_AUTO_NAME} already exists"
 fi
 
-wait
+for pid in "${pids[@]}"; do
+  wait "$pid" || exit 1
+done
