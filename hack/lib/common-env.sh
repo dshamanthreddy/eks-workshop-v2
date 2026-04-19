@@ -1,5 +1,7 @@
 environment=${environment:-""}
 
+set -x
+
 if [ -z "$environment" ]; then
   export EKS_CLUSTER_NAME="eks-workshop"
   export EKS_CLUSTER_AUTO_NAME="eks-workshop-auto"
