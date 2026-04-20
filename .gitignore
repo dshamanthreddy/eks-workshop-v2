@@ -56,3 +56,6 @@ devenv.local.nix
 
 # Kiro
 .kiro
+
+# Claude Code
+.claude/
