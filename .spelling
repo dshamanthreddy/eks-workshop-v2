@@ -143,3 +143,10 @@ resolv
 untolerated
 Workernodes
 Gitea
+ack-dynamodb
+ACK.ResourceSynced
+ack-system
+devops
+platform
+CreateTable
+CRDs

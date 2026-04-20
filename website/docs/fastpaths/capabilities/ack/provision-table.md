@@ -40,6 +40,9 @@ report the table as synced and active:
 $ kubectl wait table.dynamodb.services.k8s.aws/items -n carts \
   --for=condition=ACK.ResourceSynced --timeout=5m
 table.dynamodb.services.k8s.aws/items condition met
+$ kubectl get tables -n carts
+NAME    ARN                                                                  AGE
+items   arn:aws:dynamodb:us-west-2:111111111111:table/eks-workshop-carts-ack   1m
 $ kubectl get table.dynamodb.services.k8s.aws/items -n carts \
   -o jsonpath='{.status.tableStatus}'
 ACTIVE
